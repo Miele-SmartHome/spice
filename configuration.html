@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html data-theme="corporate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/spice.css" />
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <title>SPINE IoT Communication Emulator</title>
+  </head>
+  <body>
+    <div
+      id="fixed-config-modal"
+      class="overlay modal overlay-open:opacity-100 hidden"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="modal-dialog overlay-open:opacity-100">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Cloud Connection Settings: Qenesh</h3>
+            <button
+              type="button"
+              class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+              aria-label="Close"
+              data-overlay="#fixed-config-modal"
+            >
+              <span class="icon-[tabler--x] size-4"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span class="text-red-500">Fixed Configuration (Mock Appliance)</span>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Vendor Name</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value="Qenesh"
+                readonly
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">OAuth URL</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value="https://api.qenesh.invalidtld"
+                readonly
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Client ID</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value="b47f31aa-8c4e-44b2-b361-b946c1b98cd7"
+                readonly
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Client Secret</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value="3dff92f3-9601-4f4d-b94d-9adc1e8674a4"
+                readonly
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Redirect URL</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value="https://localhost/target.html"
+                readonly
+              />
+            </label>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="config-modal"
+      class="overlay modal overlay-open:opacity-100 hidden"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="modal-dialog overlay-open:opacity-100">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Cloud Connection Settings: MyAppliance</h3>
+            <button
+              type="button"
+              class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+              aria-label="Close"
+              data-overlay="#config-modal"
+            >
+              <span class="icon-[tabler--x] size-4"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Vendor Name</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value=""
+                id="vendor_name"
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">OAuth URL</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value=""
+                id="oauth_url"
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Client ID</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value=""
+                id="client_id"
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Client Secret</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value=""
+                id="client_secret"
+              />
+            </label>
+            <label class="form-control w-96">
+              <div class="label">
+                <span class="label-text">Redirect URL</span>
+              </div>
+              <input
+                type="text"
+                class="input"
+                value=""
+                id="redirect_url"
+              />
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success"
+              id="initiateOAuth"
+              data-overlay="#config-modal"
+            >
+              Connect to MyAppliance Cloud
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-screen bg-base-100 flex flex-1 flex-col mx-auto h-dvh">
+      <header class="w-full text-center p-10">
+        <h1 class="text-3xl">SPINE IoT Communication Emulator</h1>
+      </header>
+      <div class="flex flex-col p-6 h-full justify-between">
+        <div class="flex gap-12">
+          <aside class="pr-4">
+            <ul>
+              <li>
+                <a href="index.html" class="">
+                  <span class="">Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a href="configuration.html" class="font-bold">
+                  <span class="">Configuration</span>
+                </a>
+              </li>
+            </ul>
+          </aside>
+          <div class="w-full max-w-xl">
+            <h2 class="font-bold pb-4">Manufacturer Cloud Connections</h2>
+            <div class="grid items-center grid-cols-2 gap-2">
+              <img src="img/qenesh.png" alt="Qenesh" class="w-32 py-4" />
+              <img src="img/template_logo.png" alt="MyAppliance Template Logo " class="w-32 py-4" />
+              <div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6 stroke-green-600"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+                    />
+                  </svg>
+                  <a href="javascript:" data-overlay="#fixed-config-modal">
+                    <span class="hover:link">Configured</span>
+                  </a>
+                </div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6 stroke-green-600"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13.181 8.68a4.503 4.503 0 0 1 1.903 6.405m-9.768-2.782L3.56 14.06a4.5 4.5 0 0 0 6.364 6.365l3.129-3.129m5.614-5.615 1.757-1.757a4.5 4.5 0 0 0-6.364-6.365l-4.5 4.5c-.258.26-.479.541-.661.84m1.903 6.405a4.495 4.495 0 0 1-1.242-.88 4.483 4.483 0 0 1-1.062-1.683m6.587 2.345 5.907 5.907m-5.907-5.907L8.898 8.898M2.991 2.99 8.898 8.9"
+                    />
+                  </svg>
+                  <span>Connected</span>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6 stroke-green-600"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+                    />
+                  </svg>
+
+                  <a href="javascript:" data-overlay="#config-modal">
+                    <span class="hover:link">Configured</span>
+                  </a>
+                </div>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    id="oauth_state_icon"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13.181 8.68a4.503 4.503 0 0 1 1.903 6.405m-9.768-2.782L3.56 14.06a4.5 4.5 0 0 0 6.364 6.365l3.129-3.129m5.614-5.615 1.757-1.757a4.5 4.5 0 0 0-6.364-6.365l-4.5 4.5c-.258.26-.479.541-.661.84m1.903 6.405a4.495 4.495 0 0 1-1.242-.88 4.483 4.483 0 0 1-1.062-1.683m6.587 2.345 5.907 5.907m-5.907-5.907L8.898 8.898M2.991 2.99 8.898 8.9"
+                    />
+                  </svg>
+                  <span id="oauth_state_conn">Not Connected</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="justify-self-end">
+          <span class="text-lg text-red-500">Protocol</span>
+          <span class="text-sm">
+            <a href="javascript:" id="clearls">remove local data</a>
+          </span>
+          <textarea
+            id="debug-messages"
+            class="w-full h-40 p-3 text-sm border border-gray-300 font-mono"
+            readonly
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <script src="node_modules/flyonui/flyonui.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/config.js"></script>
+  </body>
+</html>

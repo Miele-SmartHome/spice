@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html data-theme="corporate" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="node_modules/apexcharts/dist/apexcharts.css" />
+    <link rel="stylesheet" href="css/spice.css" />
+    <title>SPINE IoT Communication Emulator</title>
+  </head>
+  <body>
+    <script id="devices-row-template" type="x-tmpl-mustache">
+      {{#devices}}
+        <tr class="hover">
+          <td class="text-nowrap">{{ deviceID }}</td>
+          <td>{{ type }}</td>
+          <td>{{ vendor }}</td>
+          <td>
+            <span class="badge badge-soft {{ badge }} text-xs">
+              {{ #state }}{{.}}{{ /state }} {{ ^state }}?{{ /state }}
+            </span
+            >
+          </td>
+          <td class="text-nowrap">
+            {{#latestEndTime}} Latest: {{ latestEndTime }} <br />{{/latestEndTime}}
+            {{#startTime}} Start: {{ startTime }} <br />{{/startTime}}
+            {{#endTime}} End: {{ endTime }} <br />{{/endTime}}
+          </td>
+          </td>
+          <td>
+            <button type="button"
+              type="button"
+              class="btn btn-circle btn-text btn-sm rescheduleStart {{ ^rescheduleStartBtn }} btn-disabled {{ /rescheduleStartBtn }}" data-device-id="{{ deviceID }}"
+            >
+              <span
+                class="icon-[tabler--player-skip-forward-filled]"
+              ></span>
+            </button>
+
+            <button type="button"
+              type="button"
+              class="btn btn-circle btn-text btn-sm showPowerGraph {{ ^showGraph }} btn-disabled {{ /showGraph }}" data-device-id="{{ deviceID }}"
+            >
+              <span
+                class="icon-[tabler--graph-filled]"
+              ></span>
+            </button>
+          </td>
+        </tr>
+      {{/devices}}
+    </script>
+    <div
+      id="graph-modal"
+      class="overlay modal overlay-open:opacity-100 hidden"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div class="modal-dialog overlay-open:opacity-100 modal-dialog-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Energy Consumption</h3>
+            <button
+              type="button"
+              class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+              aria-label="Close"
+              data-overlay="#graph-modal"
+            >
+              <span class="icon-[tabler--x] size-4"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="powerchart"></div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <div class="w-screen bg-base-100 flex flex-1 flex-col mx-auto h-dvh">
+      <header class="w-full text-center p-10">
+        <h1 class="text-3xl">SPINE IoT Communication Emulator</h1>
+      </header>
+      <div class="flex flex-col p-6 h-full gap-12 justify-between">
+        <div class="flex gap-12">
+          <aside class="">
+            <ul>
+              <li>
+                <a href="index.html" class="font-bold">
+                  <span class="">Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a href="configuration.html" class="">
+                  <span class="">Configuration</span>
+                </a>
+              </li>
+            </ul>
+          </aside>
+          <div>
+            <div
+              id="devtools"
+              class="mb-2 border-b-2 pb-2 border-warning collapse hidden transition-[height]"
+            >
+              <button
+                type="button"
+                id="btn-devices"
+                class="btn btn-primary oauth-action"
+              >
+                Devices
+              </button>
+              <button
+                type="button"
+                id="btn-entities"
+                class="btn btn-success oauth-action"
+              >
+                Entities
+              </button>
+              <button
+                type="button"
+                id="btn-powersequence"
+                class="btn btn-success oauth-action"
+              >
+                PowerSequence
+              </button>
+              <button
+                type="button"
+                id="btn-powertimeslot"
+                class="btn btn-success oauth-action"
+              >
+                PowerTimeSlot
+              </button>
+              <button
+                type="button"
+                id="btn-start"
+                class="btn btn-success oauth-action"
+              >
+                Start
+              </button>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary mb-3 oauth-action"
+              id="refreshDevices"
+            >
+              Refresh Appliances
+            </button>
+            <div
+              class="w-full overflow-x-auto border-base-content/25 border block"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Identifier</th>
+                    <th>Device-Type</th>
+                    <th>Vendor</th>
+                    <th>State</th>
+                    <th>Times</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="devicelisting"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="justify-self-end">
+          <span class="text-lg text-red-500">Protocol</span>
+          <span class="text-sm">
+            <a href="javascript:" id="clearls">remove local data</a> |
+            <a
+              href="javascript:"
+              class="collapse-toggle"
+              data-collapse="#devtools"
+              >toggle developer tools</a
+            >
+          </span>
+          <textarea
+            id="debug-messages"
+            class="w-full h-40 p-3 text-sm border border-gray-300 font-mono"
+            readonly
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="node_modules/lodash/lodash.min.js"></script>
+    <script src="node_modules/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="node_modules/mustache/mustache.min.js"></script>
+    <script src="node_modules/flyonui/flyonui.js"></script>
+    <script src="node_modules/luxon/build/global/luxon.min.js"></script>
+    <script src="js/apexcharts-helper.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "spice",
+  "version": "1.0.0",
+  "description": "EEBUS SPINE IoT Communication Emulator",
+  "author": "Miele & Cie. KG (https://miele.de)",
+  "license": "MIT",
+  "devDependencies": {
+    "flyonui": "^1.1.0",
+    "tailwindcss": "^3.4.13"
+  },
+  "dependencies": {
+    "apexcharts": "^3.54.1",
+    "axios": "^1.7.7",
+    "lodash": "^4.17.21",
+    "luxon": "^3.5.0",
+    "mustache": "^4.2.0"
+  }
+}
