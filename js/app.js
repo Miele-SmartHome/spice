@@ -20,7 +20,7 @@
 
       window.eesim.sendRequest(
         "GET",
-        apiurl + "/v1/entities?deviceId=" + deviceID,
+        apiurl + "/entities?deviceId=" + deviceID,
         null,
         window.eesim.addFormattedDebugMessage
       );
@@ -29,7 +29,7 @@
   document.getElementById("btn-devices").addEventListener("click", function () {
     window.eesim.sendRequest(
       "GET",
-      apiurl + "/v1/devices",
+      apiurl + "/devices",
       null,
       window.eesim.addFormattedDebugMessage
     );
@@ -45,7 +45,7 @@
 
       window.eesim.sendRequest(
         "GET",
-        apiurl + "/v1/features/powerSequence?deviceId=" + deviceID,
+        apiurl + "/features/powerSequence?deviceId=" + deviceID,
         null,
         window.eesim.addFormattedDebugMessage
       );
@@ -61,7 +61,7 @@
 
       window.eesim.sendRequest(
         "GET",
-        apiurl + "/v1/features/powerTimeSlot?deviceId=" + deviceID,
+        apiurl + "/features/powerTimeSlot?deviceId=" + deviceID,
         null,
         window.eesim.addFormattedDebugMessage
       );
@@ -77,7 +77,7 @@
 
     window.eesim.sendRequest(
       "POST",
-      apiurl + "/v1/usecaseInterfaces/flexibleStartForWhiteGoods/v1",
+      apiurl + "/usecaseInterfaces/flexibleStartForWhiteGoods/v1",
       {
         deviceId: deviceID,
         entityId: 0,
@@ -100,7 +100,7 @@
       let foundDevices = [];
 
       const devices = await axios
-        .get(apiurl + "/v1/devices", {
+        .get(apiurl + "/devices", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
             "Content-Type": "application/json",
@@ -119,7 +119,7 @@
 
       const promises = deviceIDs.map(async (id) => {
         const entities = await axios.get(
-          apiurl + "/v1/entities?deviceId=" + id,
+          apiurl + "/entities?deviceId=" + id,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -129,7 +129,7 @@
         );
 
         const features = await axios.get(
-          apiurl + "/v1/features/powerSequence?deviceId=" + id,
+          apiurl + "/features/powerSequence?deviceId=" + id,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -226,7 +226,7 @@
 
         window.eesim.sendRequest(
           "GET",
-          apiurl + "/v1/features/powerTimeSlot?deviceId=" + deviceID,
+          apiurl + "/features/powerTimeSlot?deviceId=" + deviceID,
           null,
           showGraphPopup
         );
@@ -244,7 +244,7 @@
 
         window.eesim.sendRequest(
           "POST",
-          apiurl + "/v1/usecaseInterfaces/flexibleStartForWhiteGoods/v1",
+          apiurl + "/usecaseInterfaces/flexibleStartForWhiteGoods/v1",
           {
             deviceId: deviceID,
             entityId: 0,

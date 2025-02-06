@@ -50,7 +50,7 @@
       let redirect_uri = document.getElementById("redirect_url").value;
 
       var state = window.eesim.generateState();
-      var path = "/thirdparty/login";
+      var path = "/login";
       localStorage.setItem("state", state);
 
       window.eesim.addDebugMessage("OAuth2: state created " + state);
@@ -103,7 +103,7 @@
 
     var fullUrl =
       url +
-      "/thirdparty/token" +
+      "/token" +
       "?client_id=" +
       client_id +
       "&client_secret=" +

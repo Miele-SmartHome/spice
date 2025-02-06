@@ -107,9 +107,11 @@
   window.eesim.markIcons = markIcons;
   window.eesim.sendRequest = sendRequest;
 
-  // Fill these values with your own data.
-  // "Optional" values: These will pre-populate the form fields for the OAuth2 Configuration.
-  // If you leave them empty, you need to supply the data directly in the form.
+  // Fill these values below with your own data.
+  // - "Optional" values: These will pre-populate the form fields for the OAuth2 Configuration.
+  //   If you leave them empty, you need to supply the data directly in the form.
+  // - URLs must not have a trailing slash.
+  // - SPINE API URL must have the version included, e.g. https://mycompany.com/api/v1
 
   window.eesim.data.vendorName = ""; // Vendor Name (Optional)
   // OAuth2 data
@@ -118,5 +120,5 @@
   window.eesim.data.client_secret = ""; // OAuth2 Client Secret (Optional)
   window.eesim.data.redirect_uri = "http://localhost/target.html"; // OAuth2 Redirect URI (MANDATORY)
   // API data
-  window.eesim.data.apiurl = ""; // SPINE API URL (MANDATORY, no trailing slash)
+  window.eesim.data.apiurl = ""; // SPINE API URL (MANDATORY)
 })();
