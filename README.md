@@ -33,6 +33,12 @@ npm start
 
 Note: You might need administrator/root permissions. 
 
+## Collaboration
+
+For the time being, please fork this repo and send a pull request.
+
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
 ## License
 
 Copyright (c) 2025 Miele & Cie. KG, MIT
