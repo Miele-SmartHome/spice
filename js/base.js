@@ -118,7 +118,7 @@
   window.eesim.data.url = ""; // OAuth2 URL (Optional)
   window.eesim.data.client_id = ""; // OAuth2 Client ID (Optional)
   window.eesim.data.client_secret = ""; // OAuth2 Client Secret (Optional)
-  window.eesim.data.redirect_uri = "http://localhost/target.html"; // OAuth2 Redirect URI (MANDATORY)
+  window.eesim.data.redirect_uri = window.location.origin + "/target.html"; // OAuth2 Redirect URI (MANDATORY)
   // API data
   window.eesim.data.apiurl = ""; // SPINE API URL (MANDATORY)
 })();
