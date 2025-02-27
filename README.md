@@ -25,8 +25,13 @@ window.eesim.data.apiurl = ""; // SPINE API URL (MANDATORY, no trailing slash)
 ```
 Note: You can skip the values marked with `(Optional)`. These values can be supplied in the app itself.
 
+Serve the folder via an HTTP server, preferably via `localhost:80`. (You can change this in `package.json` file)
 
-Serve the folder via an HTTP server, preferably via `localhost:80`.
+```
+npm start
+```
+
+Note: You might need administrator/root permissions. 
 
 ## License
 
